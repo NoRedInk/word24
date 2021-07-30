@@ -102,7 +102,7 @@ instance Num Int24 where
     signum x | x > 0       = 1
     signum 0               = 0
     signum _               = -1
-    fromInteger i          = I24# (narrow24Int# (integerToInt i))
+    fromInteger i          = I24# (narrow24Int# (integerToInt# i))
 
 instance Real Int24 where
     toRational x = toInteger x % 1
@@ -149,7 +149,7 @@ instance Integral Int24 where
         | x == minBound && y == (-1) = overflowError
         | otherwise                  = (I24# (narrow24Int# (x# `divInt#` y#)),
                                         I24# (narrow24Int# (x# `modInt#` y#)))
-    toInteger (I24# x#)              = smallInteger x#
+    toInteger (I24# x#)              = IS x#
 
 instance Bounded Int24 where
     minBound = -0x800000

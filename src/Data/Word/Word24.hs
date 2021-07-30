@@ -113,7 +113,7 @@ instance Num Word24 where
   abs x                 = x
   signum 0              = 0
   signum _              = 1
-  fromInteger i         = W24# (narrow24Word# (integerToWord i))
+  fromInteger i         = W24# (narrow24Word# (integerToWord# i))
 
 instance Real Word24 where
   toRational x = toInteger x % 1
@@ -152,7 +152,7 @@ instance Integral Word24 where
   divMod (W24# x#) y@(W24# y#)
     | y /= 0                 = (W24# (x# `quotWord#` y#), W24# (x# `remWord#` y#))
     | otherwise              = divZeroError
-  toInteger (W24# x#)        = smallInteger (word2Int# x#)
+  toInteger (W24# x#)        = IS (word2Int# x#)
 
 instance Bounded Word24 where
   minBound = 0
@@ -279,4 +279,3 @@ instance Storable Word24 where
   alignment _ = 3
   peek        = readWord24OffPtr
   poke        = writeWord24ToPtr
-
